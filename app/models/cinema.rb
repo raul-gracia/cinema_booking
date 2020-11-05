@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Cinema
   attr_reader :errors, :seats
 
@@ -36,13 +38,19 @@ class Cinema
   end
 
   def apply_booking(booking)
-    @errors << "Booking ID: #{booking.id} rejected because is out of bounds" and return if out_of_bounds?(booking)
-    @errors << "Booking ID: #{booking.id} rejected because leaves a gap of one seat" and return if leaves_a_gap?(booking)
-    @errors << "Booking ID: #{booking.id} rejected because intended seats are not available" and return unless available_seats?(booking)
+    return unless can_be_booked?(booking)
 
     booking.seats.each do |seat|
       seats[seat[:row]][seat[:column]].booked = true
     end
+  end
+
+  def can_be_booked?(booking)
+    @errors << "Booking ID: #{booking.id} rejected because is out of bounds" and return false if out_of_bounds?(booking)
+    @errors << "Booking ID: #{booking.id} rejected because leaves a gap of one seat" and return false if leaves_a_gap?(booking)
+    @errors << "Booking ID: #{booking.id} rejected because intended seats are not available" and return false unless available_seats?(booking)
+
+    true
   end
 
   def leaves_a_gap?(booking)
@@ -67,7 +75,7 @@ class Cinema
     prev_column = column - 1
     prev_row = row
 
-    if prev_column < 0
+    if prev_column.negative?
       prev_column = 0
       prev_row = row - 1
     end
@@ -89,8 +97,6 @@ class Cinema
 
   def available_seats?(booking)
     booking.seats.all? { |seat| seats[seat[:row]][seat[:column]].free? }
-  rescue => ex
-    binding.pry
   end
 
   def out_of_bounds?(booking)

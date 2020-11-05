@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class Booking
   attr_reader :error, :id, :first_row, :first_column, :last_row, :last_column
 
   def initialize(data)
-    @id = data["id"].to_i
-    @first_row = data["first_row"].to_i
-    @first_column = data["first_column"].to_i
-    @last_row = data["last_row"].to_i
-    @last_column = data["last_column"].to_i
+    @id = data['id'].to_i
+    @first_row = data['first_row'].to_i
+    @first_column = data['first_column'].to_i
+    @last_row = data['last_row'].to_i
+    @last_column = data['last_column'].to_i
   end
 
   def valid?

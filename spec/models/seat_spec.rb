@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe Seat do
-  describe ".new" do
-    it "initializes a new object with the given params" do
+  describe '.new' do
+    it 'initializes a new object with the given params' do
       seat = Seat.new(number: 1, row: 1, column: 1, booked: true)
 
       expect(seat.number).to eq 1
@@ -10,8 +12,8 @@ RSpec.describe Seat do
     end
   end
 
-  describe "#free?" do
-    it "returns true if the booked property is false" do
+  describe '#free?' do
+    it 'returns true if the booked property is false' do
       free_seat = Seat.new(number: 1, row: 1, column: 1, booked: false)
       expect(free_seat).to be_free
 

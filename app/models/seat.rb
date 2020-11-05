@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Seat
   attr_accessor :number, :row, :column, :booked
 
