@@ -1,15 +1,51 @@
-<div class="w-full max-w-xs">
-  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+<div class="w-full mb-4">
+  <%= form_tag('/', html: { multipart: true},  class:"bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" ) do %>
     <div class="mb-4">
       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
         Bookings File
       </label>
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="bookings_file" type="file">
+      <%= file_field_tag "bookings_file", class:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
     <div class="flex items-center justify-between">
-      <button class="bg-yellow-300 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-        Upload Bookings File
-      </button>
+      <%= submit_tag "Upload Bookings File", class:"bg-yellow-300 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
     </div>
-  </form>
+  <% end %>
 </div>
+<% if @cinema.try(:errors).try(:any?) %>
+  <% content_for(:title_header) do %>
+    Booking Errors
+  <% end %>
+  <div class="flex w-full mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="flex justify-center items-center w-12 bg-red-500">
+      <svg class="h-6 w-6 fill-current text-white" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"/>
+      </svg>
+    </div>
+    <div class="-mx-3 py-2 px-4">
+      <div class="mx-3">
+        <span class="text-red-500 font-semibold">Errors</span>
+        <% @cinema.errors.each do |error| %>
+          <p class="text-gray-600 text-sm"><%= error %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @cinema.try(:seats) %>
+  <h1 class="text-6xl text-center font-bold leading-tight text-yellow-300 mt-8">Cinema Layout</h1>
+  <table class="mt-8">
+    <% @cinema.seats.each do |row|%>
+      <tr>
+        <% row.each do |seat|%>
+          <td class="m-0 p-0">
+            <% if seat.free? %>
+              <%= image_tag 'seat_empty.svg', class: 'w-4 mb-2 p-0', alt: seat.number %>
+            <% else %>
+              <%= image_tag 'seat_full.svg', class: 'w-4 mb-2 p-0', alt: seat.number %>
+            <% end %>
+          </td>
+        <% end%>
+      </tr>
+    <% end%>
+  </table>
+<% end%>
