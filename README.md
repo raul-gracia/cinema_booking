@@ -6,7 +6,10 @@ Write a system to process a text file of bookings (booking_requests) and determi
 
 The text file of bookings contains one booking per line, where a booking is of the following form:
 
+```
 (<id>,<index of first seat row>:<index of first seat within row>,<index of last seat row>:<index of last seat within row>),
+
+```
 
 Rows and seats are both 0-indexed. Note the trailing comma is absent on the final line.
 
@@ -23,3 +26,5 @@ Rows and seats are both 0-indexed. Note the trailing comma is absent on the fina
 `bundle exec rspec`
 
 ## Screenshots
+
+![UI](UI.png)

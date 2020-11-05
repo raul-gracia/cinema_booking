@@ -41,6 +41,7 @@ end
 group :test do
   gem 'capybara', '~> 3.33'
   gem 'rspec-rails', '~> 4.0', '>= 4.0.1'
+  gem 'simplecov', '~> 0.19.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

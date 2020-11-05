@@ -19,12 +19,9 @@ FileUtils.chdir APP_ROOT do
   system! 'gem install bundler --conservative'
   system('bundle check') || system!('bundle install')
 
-  # Install JavaScript dependencies
-  # system('bin/yarn')
+  puts '== Running Rubocop =='
+  system('bundle exec rubocop --display-cop-names --extra-details --display-style-guide')
 
-  puts "\n== Removing old logs and tempfiles =="
-  system! 'bin/rails log:clear tmp:clear'
-
-  puts "\n== Restarting application server =="
-  system! 'bin/rails restart'
+  puts '== Running Tests =='
+  system('bundle exec rspec')
 end
